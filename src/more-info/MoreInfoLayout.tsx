@@ -3,6 +3,7 @@ import { Divider } from '@alfalab/core-components/divider';
 import { Gap } from '@alfalab/core-components/gap';
 import { Input } from '@alfalab/core-components/input';
 import { Typography } from '@alfalab/core-components/typography';
+import { useState } from 'react';
 import shield from '../assets/shield.png';
 import { appSt } from '../style.css';
 import { miSt } from './style.css';
@@ -14,6 +15,16 @@ type Props = {
 };
 
 export const MoreInfoLayout = ({ goBack, email, setEmail }: Props) => {
+  const [err, setError] = useState('');
+
+  const onClick = () => {
+    setError('');
+    if (!email) {
+      setError('Пожалуйста, укажите ваш e-mail');
+      return;
+    }
+    goBack();
+  };
   return (
     <>
       <div className={appSt.container}>
@@ -98,7 +109,7 @@ export const MoreInfoLayout = ({ goBack, email, setEmail }: Props) => {
       <Gap size={96} />
 
       <div className={appSt.bottomBtn}>
-        <ButtonMobile block view="primary" onClick={goBack}>
+        <ButtonMobile block view="primary" onClick={onClick} hint={err}>
           Спасибо, все понятно
         </ButtonMobile>
       </div>
