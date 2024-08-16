@@ -12,6 +12,7 @@ import { MoreInfoLayout } from './more-info/MoreInfoLayout';
 import { miSt } from './more-info/style.css';
 import { appSt } from './style.css';
 import { ThxLayout } from './thx/ThxLayout';
+import { sendDataToGA } from './utils/events';
 
 export const App = () => {
   const [checked, setChecked] = useState(true);
@@ -32,15 +33,19 @@ export const App = () => {
       return;
     }
     setLoading(true);
-    // LS.setItem(LSKeys.ShowThx, true);
-    setThx(true);
-    setLoading(false);
 
-    // sendDataToGA(selectedItems).then(() => {
-    //   setLoading(false);
-
-    // });
-  }, [accountNumber]);
+    sendDataToGA({
+      autopayments: Number(checked) as 1 | 0,
+      limit: Number(checked2) as 1 | 0,
+      limit_sum: limit ?? 0,
+      insurance: Number(checked3) as 1 | 0,
+      email,
+    }).then(() => {
+      LS.setItem(LSKeys.ShowThx, true);
+      setThx(true);
+      setLoading(false);
+    });
+  }, [accountNumber, checked, checked2, checked3, email, limit]);
 
   if (thxShow) {
     return <ThxLayout />;
