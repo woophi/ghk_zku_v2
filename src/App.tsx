@@ -39,7 +39,7 @@ export const App = () => {
       limit: Number(checked2) as 1 | 0,
       limit_sum: limit ?? 0,
       insurance: Number(checked3) as 1 | 0,
-      email,
+      email: email ? 1 : 0,
     }).then(() => {
       LS.setItem(LSKeys.ShowThx, true);
       setThx(true);
